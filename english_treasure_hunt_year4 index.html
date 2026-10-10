@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English Treasure Hunt — Vehicles Vocabulary</title>
+<style>
+:root{--navy:#12365a;--blue:#1686d9;--gold:#ffbf36;--cream:#fff7df;--green:#249b58;--red:#d94343}
+*{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:Trebuchet MS,Arial,sans-serif;background:linear-gradient(160deg,#8de0f0,#d5f8c9 55%,#ffe6a6);color:var(--navy);display:flex;justify-content:center;align-items:center;padding:16px}
+.game{width:min(780px,100%);background:rgba(255,255,255,.94);border:5px solid #fff;border-radius:26px;box-shadow:0 12px 30px #17426330;overflow:hidden}
+.banner{padding:20px 18px;text-align:center;color:white;background:linear-gradient(120deg,#087bbd,#14a5b2);position:relative}
+.banner h1{margin:0;font-size:clamp(1.55rem,5vw,2.5rem);text-shadow:2px 3px #14527a}.banner p{margin:7px 0 0;font-weight:bold}
+main{padding:clamp(16px,4vw,30px)}.hidden{display:none!important}
+.intro{text-align:center}.explorer{font-size:4rem;margin:8px}.intro h2{color:#a85a00;font-size:1.65rem}.intro p{line-height:1.55}
+.rules{max-width:460px;text-align:left;margin:18px auto;background:#fff3ca;padding:16px 22px;border-radius:16px;line-height:1.8}
+button{font:inherit;font-weight:bold;border:0;border-radius:14px;padding:13px 18px;cursor:pointer;transition:transform .12s,filter .12s}
+button:hover{filter:brightness(1.04);transform:translateY(-1px)}button:focus-visible{outline:4px solid #ffb400;outline-offset:3px}
+.primary{background:linear-gradient(#ffdc62,#ffae16);color:#573400;box-shadow:0 4px 0 #d98a00}.next{background:linear-gradient(#41c976,#198d4c);color:white;box-shadow:0 4px 0 #12683a}
+.stats{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.pill{background:#e6f4ff;border:2px solid #a7d9f7;padding:9px 13px;border-radius:30px;font-weight:bold}
+.progress{height:10px;background:#dcebf3;border-radius:10px;overflow:hidden;margin:8px 0 20px}.progress span{height:100%;display:block;width:0;background:linear-gradient(90deg,#ffbf36,#36bf6e);transition:width .3s}
+.question-card{background:var(--cream);border:3px solid #f1d07a;border-radius:20px;padding:20px;text-align:center}
+.q-number{font-weight:bold;color:#a75e00;text-transform:uppercase;letter-spacing:.06em}.vehicle{font-size:5.4rem;line-height:1.35;margin:10px}.question{font-size:clamp(1.2rem,4vw,1.65rem);font-weight:bold;margin:8px 0 18px}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.answer{background:linear-gradient(#43b8f4,#1685d4);color:white;border:2px solid #0873b9;box-shadow:0 3px 0 #075c96;text-align:left;min-height:54px}
+.answer:disabled{cursor:default;opacity:.94;transform:none}.answer.correct{background:linear-gradient(#55d88a,#239c58);border-color:#178247;box-shadow:0 3px 0 #126638}.answer.wrong{background:linear-gradient(#ff8989,#dc4444);border-color:#b62f2f;box-shadow:0 3px 0 #9b2222}
+.feedback{margin:16px 0 0;padding:14px;border-radius:14px;font-weight:bold;line-height:1.45}.feedback.good{background:#d9f8e4;color:#116735}.feedback.bad{background:#ffe3df;color:#8f2525}.hint{background:#fff0ba;color:#795000;border-radius:12px;padding:12px;margin-top:12px}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}.secondary{background:#e8f2f8;color:#174567;border:2px solid #b8d8e8}
+.result{text-align:center}.treasure{font-size:5rem}.result h2{font-size:2rem;color:#b46a00;margin:6px}.score-big{font-size:2.6rem;font-weight:900;color:#17864b;margin:10px}.result-box{max-width:460px;margin:16px auto;background:#fff3ca;border-radius:16px;padding:16px;line-height:1.8;text-align:left}.small{font-size:.9rem;color:#46677f}
+@media(max-width:480px){body{padding:7px}.game{border-width:3px;border-radius:20px}.answers{grid-template-columns:1fr}.vehicle{font-size:4.6rem}.question-card{padding:14px}.banner{padding:17px 10px}.stats{justify-content:center}}
+</style>
+</head>
+<body>
+<div class="game">
+<header class="banner"><h1>🏴‍☠️ English Treasure Hunt</h1><p>Vocabulary of Vehicles • Year 4</p></header>
+<main>
+<section id="start" class="intro">
+<div class="explorer">🧭 🧒🏻 🗺️</div>
+<h2>Ready to find the treasure?</h2>
+<p>Help Alex cross the island by answering questions about vehicles!</p>
+<div class="rules">
+<strong>📜 How to play</strong><br>
+⭐ Answer 10 questions.<br>
+⭐ Each correct answer earns 10 points.<br>
+⭐ Read the feedback and hints to learn new words.<br>
+⭐ Collect points to unlock the treasure!
+</div>
+<button class="primary" id="startBtn">START THE ADVENTURE ▶</button>
+<p class="small">No timer — take your time and do your best.</p>
+</section>
+
+<section id="quiz" class="hidden">
+<div class="stats"><div class="pill">⭐ Score: <span id="score">0</span></div><div class="pill">🧩 Question: <span id="count">1 / 10</span></div><div class="pill">💎 Treasure: <span id="treasureCount">0</span>/10</div></div>
+<div class="progress"><span id="progress"></span></div>
+<div class="question-card">
+<div class="q-number" id="qLabel">Question 1 of 10</div>
+<div class="vehicle" id="vehicle" aria-hidden="true">🚗</div>
+<div class="question" id="question">What is this vehicle?</div>
+<div class="answers" id="answers"></div>
+<div id="feedback" class="feedback hidden" aria-live="polite"></div>
+<div id="hint" class="hint hidden"></div>
+</div>
+<div class="actions"><button id="hintBtn" class="secondary">💡 Give me a hint</button><button id="nextBtn" class="next hidden">Next question ➜</button></div>
+</section>
+
+<section id="result" class="result hidden">
+<div class="treasure">🏆💰</div><h2 id="resultTitle">Treasure unlocked!</h2>
+<p>You completed the English vehicle-vocabulary adventure.</p>
+<div class="score-big"><span id="finalScore">0</span> / 100</div>
+<div class="result-box">
+<div>✅ Correct answers: <strong id="correctCount">0 / 10</strong></div>
+<div>📊 Achievement: <strong id="percent">0%</strong></div>
+<div>🎖️ Explorer level: <strong id="level">Beginner Explorer</strong></div>
+<div id="encouragement"></div>
+</div>
+<button class="primary" id="replayBtn">↻ PLAY AGAIN</button>
+<p class="small">Keep practising your English vocabulary. Great effort!</p>
+</section>
+</main>
+</div>
+<script>
+const questions = [
+ {emoji:"🚗",q:"What is this vehicle?",opts:["bus","car","truck","bicycle"],ans:"car",hint:"It usually has four wheels and carries a small number of people.",ex:"A car is a road vehicle for carrying people."},
+ {emoji:"🚌",q:"Which vehicle takes children to school?",opts:["school bus","van","taxi","lorry"],ans:"school bus",hint:"It is often yellow and picks up pupils for school.",ex:"A school bus takes children to and from school."},
+ {emoji:"🏍️",q:"What is this two-wheeled motor vehicle?",opts:["motorcycle","bicycle","lorry","boat"],ans:"motorcycle",hint:"It has an engine. The rider wears a helmet.",ex:"A motorcycle has an engine and two wheels."},
+ {emoji:"✈️",q:"Which vehicle flies in the sky and carries many passengers?",opts:["train","airplane","helicopter","ship"],ans:"airplane",hint:"It has wings and travels through the air.",ex:"An airplane flies through the sky."},
+ {emoji:"🚒",q:"Which vehicle helps firefighters put out fires?",opts:["ambulance","fire truck","police car","van"],ans:"fire truck",hint:"It carries firefighters and firefighting equipment.",ex:"A fire truck is used by firefighters."},
+ {emoji:"🚑",q:"Which vehicle takes sick or injured people to hospital?",opts:["taxi","lorry","ambulance","tractor"],ans:"ambulance",hint:"It often has a siren and helps people in emergencies.",ex:"An ambulance takes patients to hospital."},
+ {emoji:"🚆",q:"Which vehicle travels on railway tracks?",opts:["train","bus","boat","bicycle"],ans:"train",hint:"It can pull many carriages along tracks.",ex:"A train travels on railway tracks."},
+ {emoji:"🚲",q:"Which vehicle do you pedal and usually has no engine?",opts:["motorcycle","bicycle","airplane","ship"],ans:"bicycle",hint:"You use your feet on pedals to make it move.",ex:"A bicycle has two wheels and pedals."},
+ {emoji:"🚢",q:"Which vehicle carries people or goods across the sea?",opts:["helicopter","car","ship","scooter"],ans:"ship",hint:"It floats on water and can be very large.",ex:"A ship travels on water."},
+ {emoji:"🚜",q:"Which vehicle helps farmers work in fields?",opts:["tractor","taxi","submarine","bus"],ans:"tractor",hint:"It is powerful and often pulls farm equipment.",ex:"A tractor helps farmers do work on a farm."}
+];
+let index=0, score=0, correct=0, answered=false, hintUsed=false;
+const $=id=>document.getElementById(id);
+function show(section){["start","quiz","result"].forEach(s=>$(s).classList.toggle("hidden",s!==section));}
+function startGame(){index=0;score=0;correct=0;show("quiz");renderQuestion();}
+function renderQuestion(){
+ answered=false;hintUsed=false;const q=questions[index];
+ $("score").textContent=score;$("count").textContent=`${index+1} / ${questions.length}`;$("treasureCount").textContent=correct;
+ $("qLabel").textContent=`Question ${index+1} of ${questions.length}`;$("vehicle").textContent=q.emoji;$("question").textContent=q.q;
+ $("progress").style.width=`${index/questions.length*100}%`;
+ $("feedback").className="feedback hidden";$("feedback").textContent="";$("hint").classList.add("hidden");$("hint").textContent="";
+ $("hintBtn").classList.remove("hidden");$("nextBtn").classList.add("hidden");
+ const wrap=$("answers");wrap.innerHTML="";
+ // Shuffle options for each question while keeping answer validation reliable.
+ [...q.opts].sort(()=>Math.random()-.5).forEach((opt,i)=>{
+  const b=document.createElement("button");b.className="answer";b.textContent=String.fromCharCode(65+i)+". "+opt;b.onclick=()=>chooseAnswer(b,opt);wrap.appendChild(b);
+ });
+}
+function chooseAnswer(button,opt){
+ if(answered)return;answered=true;const q=questions[index];const isCorrect=opt===q.ans;
+ if(isCorrect){score+=10;correct++;button.classList.add("correct");$("feedback").className="feedback good";$("feedback").textContent="🎉 Correct! "+q.ex;}
+ else{button.classList.add("wrong");$("feedback").className="feedback bad";$("feedback").textContent="Not quite. The correct answer is “"+q.ans+"”. "+q.ex;}
+ [...$("answers").children].forEach(b=>{b.disabled=true;if(b.textContent.slice(3)===q.ans)b.classList.add("correct");});
+ $("score").textContent=score;$("treasureCount").textContent=correct;$("feedback").classList.remove("hidden");
+ $("hintBtn").classList.add("hidden");$("nextBtn").textContent=index===questions.length-1?"Open the treasure chest 🏆":"Next question ➜";$("nextBtn").classList.remove("hidden");
+}
+function showHint(){const q=questions[index];$("hint").textContent="💡 Hint: "+q.hint;$("hint").classList.remove("hidden");hintUsed=true;}
+function nextQuestion(){if(index<questions.length-1){index++;renderQuestion();}else finishGame();}
+function finishGame(){
+ show("result");$("progress").style.width="100%";$("finalScore").textContent=score;$("correctCount").textContent=`${correct} / ${questions.length}`;$("percent").textContent=(score)+"%";
+ let level,msg,title;
+ if(score===100){level="Super Explorer 🌟";msg="Amazing! You found every treasure and mastered the vehicle words.";title="Perfect score!";}
+ else if(score>=70){level="Brave Explorer 🥇";msg="Well done! Review the words you missed and try again.";title="Treasure unlocked!";}
+ else if(score>=40){level="Growing Explorer 🧭";msg="Good effort! Practise the vocabulary and you will improve.";title="You found some treasure!";}
+ else{level="Beginner Explorer 🌱";msg="Keep going! Every try helps you learn. Play again to practise.";title="Adventure complete!";}
+ $("level").textContent=level;$("encouragement").textContent=msg;$("resultTitle").textContent=title;
+}
+$("startBtn").addEventListener("click",startGame);$("hintBtn").addEventListener("click",showHint);$("nextBtn").addEventListener("click",nextQuestion);$("replayBtn").addEventListener("click",startGame);
+</script>
+</body>
+</html>
